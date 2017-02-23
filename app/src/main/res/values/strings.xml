@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GitHub Followers</string>
+    <string name="search_hint">User Name</string>
+</resources>
