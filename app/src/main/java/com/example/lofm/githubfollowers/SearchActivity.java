@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lofm.githubfollowers.adapter.GridAdapter;
@@ -28,11 +29,14 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     private GridAdapter adapter;
     private ProgressBar progressBar;
     private List<GHUser> ghUsers;
+    private TextView defaultTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        //Set default text view
+        defaultTextView = (TextView) findViewById(R.id.defaultTextView);
         //Setup progress bar
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         //Setup presenter
@@ -60,6 +64,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     @Override
     public boolean onQueryTextSubmit(String query) {
         presenter.getFollowers(query);
+        defaultTextView.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
         return true;
@@ -85,17 +90,25 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public void onSuccess(List<GHUser> ghUsers) {
-        this.ghUsers = ghUsers;
-        progressBar.setVisibility(View.INVISIBLE);
-        recyclerView.setVisibility(View.VISIBLE);
-        adapter.setGHUsers(this.ghUsers);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        if (ghUsers.size() == 0) {
+            onError(getString(R.string.no_items_found));
+        } else {
+            this.ghUsers = ghUsers;
+            defaultTextView.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+            adapter.setGHUsers(this.ghUsers);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onError(String errorMessage) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        defaultTextView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+        defaultTextView.setText(errorMessage);
     }
 
     @Override
