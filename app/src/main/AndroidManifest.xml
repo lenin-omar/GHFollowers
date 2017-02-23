@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lofm.githubfollowers">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/githublogo"
@@ -20,9 +22,6 @@
 
         <activity android:name=".SearchActivity"
             android:screenOrientation="sensorPortrait">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.SEARCH"/>-->
-            <!--</intent-filter>-->
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable">
