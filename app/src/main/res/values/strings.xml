@@ -3,4 +3,6 @@
     <string name="search_hint">User Name</string>
     <string name="endpoint">https://api.github.com/users/</string>
     <string name="server_error">It is not possible to connect to the server</string>
+    <string name="no_items_found">No followers found</string>
+    <string name="default_initial_text">Type a GitHub user on the search bar above</string>
 </resources>
