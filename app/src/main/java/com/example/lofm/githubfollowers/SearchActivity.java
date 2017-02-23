@@ -2,6 +2,7 @@ package com.example.lofm.githubfollowers;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -115,6 +116,11 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     public void onImageClicked(View view, int position) {
         //TODO: Add transition animation
         Toast.makeText(this, "User: " + ghUsers.get(position).getLogin(), Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(DetailActivity.GH_USER_KEY, ghUsers.get(position));
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 }
