@@ -13,18 +13,17 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lofm.githubfollowers.adapter.GridAdapter;
 import com.example.lofm.githubfollowers.model.GHUser;
-import com.example.lofm.githubfollowers.presenter.GridPresenter;
+import com.example.lofm.githubfollowers.presenter.SearchPresenter;
 import com.example.lofm.githubfollowers.ui.ImageListener;
 
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, ImageListener, GridPresenter.GridListener {
+public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, ImageListener, SearchPresenter.SearchListener {
 
-    private GridPresenter presenter;
+    private SearchPresenter presenter;
     private RecyclerView recyclerView;
     private GridLayoutManager glm;
     private GridAdapter adapter;
@@ -41,7 +40,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         //Setup progress bar
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         //Setup presenter
-        presenter = new GridPresenter(this);
+        presenter = new SearchPresenter(this);
         //Setup recycler view and layout manager
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         glm = new GridLayoutManager(this, 3);
@@ -115,7 +114,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     @Override
     public void onImageClicked(View view, int position) {
         //TODO: Add transition animation
-        Toast.makeText(this, "User: " + ghUsers.get(position).getLogin(), Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putParcelable(DetailActivity.GH_USER_KEY, ghUsers.get(position));
         Intent intent = new Intent(this, DetailActivity.class);

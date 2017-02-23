@@ -10,23 +10,20 @@ import com.example.lofm.githubfollowers.model.GHUser;
 import com.example.lofm.githubfollowers.rest.GsonRequest;
 import com.example.lofm.githubfollowers.rest.VolleySingleton;
 
-import java.util.Arrays;
-import java.util.List;
 
 /**
- * Created by LOFM on 22/02/2017.
+ * Created by LOFM on 23/02/2017.
  */
-
-public class GridPresenter implements Response.Listener<Object>, Response.ErrorListener {
+public class DetailPresenter implements Response.Listener<Object>, Response.ErrorListener {
 
     private Context context;
-    private GridListener listener;
+    private DetailListener listener;
 
-    public GridPresenter(Context context) {
+    public DetailPresenter(Context context) {
         this.context = context;
     }
 
-    public void registerListener(GridListener listener) {
+    public void registerListener(DetailListener listener) {
         this.listener = listener;
     }
 
@@ -34,17 +31,21 @@ public class GridPresenter implements Response.Listener<Object>, Response.ErrorL
         listener = null;
     }
 
-    public void getFollowers(String userId) {
-        String url = context.getString(R.string.endpoint) + userId + "/followers";
-        GsonRequest request = new GsonRequest(Request.Method.GET, url, GHUser[].class, null, this, this);
+    public void getFollowerDetails(String userId) {
+        String url = context.getString(R.string.endpoint) + userId;
+        GsonRequest request = new GsonRequest(Request.Method.GET, url, GHUser.class, null, this, this);
         VolleySingleton.getInstance(context).getRequestQueue().add(request);
     }
 
     @Override
     public void onResponse(Object response) {
-        GHUser[] ghUsers = (GHUser[]) response;
-        List<GHUser> ghUserList = Arrays.asList(ghUsers);
-        listener.onSuccess(ghUserList);
+        if (response != null) {
+            GHUser ghUser = (GHUser) response;
+            listener.onSuccess(ghUser);
+        } else {
+            listener.onError(context.getString(R.string.server_error));
+        }
+
     }
 
     @Override
@@ -53,11 +54,10 @@ public class GridPresenter implements Response.Listener<Object>, Response.ErrorL
         listener.onError(context.getString(R.string.server_error));
     }
 
-    public interface GridListener {
+    public interface DetailListener {
 
-        void onSuccess(List<GHUser> ghUsers);
+        void onSuccess(GHUser ghUser);
 
         void onError(String errorMessage);
     }
-
 }
