@@ -4,16 +4,45 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+import com.example.lofm.githubfollowers.adapter.GridAdapter;
+import com.example.lofm.githubfollowers.model.GHUser;
+import com.example.lofm.githubfollowers.presenter.GridPresenter;
+import com.example.lofm.githubfollowers.ui.ImageListener;
+
+import java.util.List;
+
+public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, ImageListener, GridPresenter.GridListener {
+
+    private GridPresenter presenter;
+    private RecyclerView recyclerView;
+    private GridLayoutManager glm;
+    private GridAdapter adapter;
+    private ProgressBar progressBar;
+    private List<GHUser> ghUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        //Setup progress bar
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        //Setup presenter
+        presenter = new GridPresenter(this);
+        //Setup recycler view and layout manager
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        glm = new GridLayoutManager(this, 3);
+        recyclerView.setLayoutManager(glm);
+        //Setup adapter
+        adapter = new GridAdapter(this, this);
     }
 
     @Override
@@ -30,12 +59,49 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        //TODO: Search followers
-        return false;
+        presenter.getFollowers(query);
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+        return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        //Do nothing
         return false;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.registerListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.unRegisterListener();
+    }
+
+    @Override
+    public void onSuccess(List<GHUser> ghUsers) {
+        this.ghUsers = ghUsers;
+        progressBar.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+        adapter.setGHUsers(this.ghUsers);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onError(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onImageClicked(View view, int position) {
+        //TODO: Add transition animation
+        Toast.makeText(this, "User: " + ghUsers.get(position).getLogin(), Toast.LENGTH_SHORT).show();
+    }
+
 }
