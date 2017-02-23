@@ -10,6 +10,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.lofm.githubfollowers.adapter.GridAdapter;
@@ -25,12 +26,15 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     private RecyclerView recyclerView;
     private GridLayoutManager glm;
     private GridAdapter adapter;
-//    private List<GHUser> ghUsers;
+    private ProgressBar progressBar;
+    private List<GHUser> ghUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        //Setup progress bar
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         //Setup presenter
         presenter = new GridPresenter(this);
         //Setup recycler view and layout manager
@@ -55,8 +59,9 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        //TODO: Search followers
         presenter.getFollowers(query);
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
         return true;
     }
 
@@ -80,8 +85,10 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public void onSuccess(List<GHUser> ghUsers) {
-//        this.ghUsers = ghUsers;
-        adapter.setGHUsers(ghUsers);
+        this.ghUsers = ghUsers;
+        progressBar.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+        adapter.setGHUsers(this.ghUsers);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -94,6 +101,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     @Override
     public void onImageClicked(View view, int position) {
         //TODO: Add transition animation
+        Toast.makeText(this, "User: " + ghUsers.get(position).getLogin(), Toast.LENGTH_SHORT).show();
     }
 
 }

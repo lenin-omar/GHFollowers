@@ -1,13 +1,12 @@
 package com.example.lofm.githubfollowers.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -48,6 +47,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ImageViewHolde
 
     @Override
     public void onBindViewHolder(final ImageViewHolder holder, final int position) {
+        holder.loginTextView.setText(ghUsers.get(position).getLogin());
         holder.initialImage.setImageUrl(ghUsers.get(position).getAvatar_url(), imageLoader);
         ViewCompat.setTransitionName(holder.initialImage, String.valueOf(position) + "_image");
         holder.initialImage.setOnClickListener(new View.OnClickListener() {
@@ -67,10 +67,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ImageViewHolde
     public class ImageViewHolder extends RecyclerView.ViewHolder {
 
         protected NetworkImageView initialImage;
+        protected TextView loginTextView;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
             initialImage = (NetworkImageView) itemView.findViewById(R.id.initialImage);
+            loginTextView = (TextView) itemView.findViewById(R.id.loginTextView);
         }
     }
 }
