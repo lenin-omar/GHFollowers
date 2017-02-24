@@ -115,7 +115,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public void onImageClicked(View view, int position) {
-        //TODO: Add transition animation
         Bundle bundle = new Bundle();
         bundle.putParcelable(DetailActivity.GH_USER_KEY, ghUsers.get(position));
         Intent intent = new Intent(this, DetailActivity.class);

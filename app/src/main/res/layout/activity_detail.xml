@@ -35,7 +35,7 @@
             android:layout_marginTop="40dp"
             app:cardCornerRadius="80dp">
 
-            <com.android.volley.toolbox.NetworkImageView
+            <com.example.lofm.githubfollowers.ui.CircledNetworkImageView
                 android:id="@+id/userImageView"
                 android:layout_width="160dp"
                 android:layout_height="160dp"

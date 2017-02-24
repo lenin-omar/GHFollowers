@@ -21,7 +21,7 @@
         android:shape="ring"
         android:thicknessRatio="1.9">
 
-        <com.android.volley.toolbox.NetworkImageView
+        <com.example.lofm.githubfollowers.ui.CircledNetworkImageView
             android:id="@+id/initialImage"
             android:layout_width="@dimen/preview_size"
             android:layout_height="@dimen/preview_size"
