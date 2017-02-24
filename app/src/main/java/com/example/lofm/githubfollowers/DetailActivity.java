@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
-import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,9 +14,8 @@ import com.example.lofm.githubfollowers.model.GHUser;
 import com.example.lofm.githubfollowers.presenter.DetailPresenter;
 import com.example.lofm.githubfollowers.rest.VolleySingleton;
 import com.example.lofm.githubfollowers.ui.CircledNetworkImageView;
-import com.example.lofm.githubfollowers.utils.ImageDownloader;
 
-public class DetailActivity extends AppCompatActivity implements DetailPresenter.DetailListener, View.OnClickListener {
+public class DetailActivity extends AppCompatActivity implements DetailPresenter.DetailListener {
 
     public static final String GH_USER_KEY = "com.example.lofm.githubfollowers.ghUserKey";
     private GHUser ghUser;
@@ -45,7 +43,6 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
         //Set images url
         imageLoader = VolleySingleton.getInstance(this).getImageLoader();
         userImageView.setImageUrl(ghUser.getAvatar_url(), imageLoader);
-        userImageView.setOnClickListener(this);
         userBkgImage.setImageUrl(ghUser.getAvatar_url(), imageLoader);
     }
 
@@ -98,12 +95,6 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setExitTransition(new Explode());
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        //TODO: Download image from URL
-        ImageDownloader imageDownloader = (ImageDownloader) new ImageDownloader(this).execute(ghUser.getAvatar_url());
     }
 
 }
