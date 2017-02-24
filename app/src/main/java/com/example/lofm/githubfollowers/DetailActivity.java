@@ -17,7 +17,7 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
     private GHUser ghUser;
     private ImageLoader imageLoader;
     private NetworkImageView userImageView, userBkgImage;
-    private TextView locationTextView, emailTextView;
+    private TextView locationTextView, emailTextView, followersTextView, followingTextView, reposTextView, loginTextView, nameTextView;
     private DetailPresenter presenter;
 
     @Override
@@ -57,6 +57,11 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
         userBkgImage = (NetworkImageView) findViewById(R.id.userBkgImage);
         locationTextView = (TextView) findViewById(R.id.locationTextView);
         emailTextView = (TextView) findViewById(R.id.emailTextView);
+        followersTextView = (TextView) findViewById(R.id.followersTextView);
+        followingTextView = (TextView) findViewById(R.id.followingTextView);
+        reposTextView = (TextView) findViewById(R.id.reposTextView);
+        loginTextView = (TextView) findViewById(R.id.loginTextView);
+        nameTextView = (TextView) findViewById(R.id.nameTextView);
     }
 
     @Override
@@ -64,6 +69,11 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
         this.ghUser = ghUser;
         locationTextView.setText(this.ghUser.getLocation());
         emailTextView.setText(this.ghUser.getEmail());
+        followersTextView.setText(String.valueOf(this.ghUser.getFollowers()));
+        followingTextView.setText(String.valueOf(this.ghUser.getFollowing()));
+        reposTextView.setText(String.valueOf(this.ghUser.getPublic_repos()));
+        loginTextView.setText(this.ghUser.getLogin());
+        nameTextView.setText(this.ghUser.getName());
     }
 
     @Override
