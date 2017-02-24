@@ -1,8 +1,10 @@
 package com.example.lofm.githubfollowers;
 
+import android.app.ActivityOptions;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -118,7 +120,11 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         bundle.putParcelable(DetailActivity.GH_USER_KEY, ghUsers.get(position));
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtras(bundle);
-        startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, view, "expandImage").toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 
 }

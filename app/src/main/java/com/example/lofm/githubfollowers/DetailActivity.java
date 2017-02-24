@@ -1,7 +1,10 @@
 package com.example.lofm.githubfollowers;
 
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,8 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // inside your activity (if you did not enable transitions in your theme)
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_detail);
         //Hide bar
         getSupportActionBar().hide();
@@ -79,5 +84,14 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
     @Override
     public void onError(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // set an exit transition
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setExitTransition(new Explode());
+        }
     }
 }
