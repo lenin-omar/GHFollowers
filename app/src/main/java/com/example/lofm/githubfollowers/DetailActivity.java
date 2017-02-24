@@ -1,8 +1,8 @@
 package com.example.lofm.githubfollowers;
 
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
 import android.view.Window;
 import android.widget.TextView;
@@ -13,13 +13,15 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.example.lofm.githubfollowers.model.GHUser;
 import com.example.lofm.githubfollowers.presenter.DetailPresenter;
 import com.example.lofm.githubfollowers.rest.VolleySingleton;
+import com.example.lofm.githubfollowers.ui.CircledNetworkImageView;
 
 public class DetailActivity extends AppCompatActivity implements DetailPresenter.DetailListener {
 
     public static final String GH_USER_KEY = "com.example.lofm.githubfollowers.ghUserKey";
     private GHUser ghUser;
     private ImageLoader imageLoader;
-    private NetworkImageView userImageView, userBkgImage;
+    private CircledNetworkImageView userImageView;
+    private NetworkImageView userBkgImage;
     private TextView locationTextView, emailTextView, followersTextView, followingTextView, reposTextView, loginTextView, nameTextView;
     private DetailPresenter presenter;
 
@@ -58,7 +60,7 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
     }
 
     private void initViews() {
-        userImageView = (NetworkImageView) findViewById(R.id.userImageView);
+        userImageView = (CircledNetworkImageView) findViewById(R.id.userImageView);
         userBkgImage = (NetworkImageView) findViewById(R.id.userBkgImage);
         locationTextView = (TextView) findViewById(R.id.locationTextView);
         emailTextView = (TextView) findViewById(R.id.emailTextView);
@@ -94,4 +96,5 @@ public class DetailActivity extends AppCompatActivity implements DetailPresenter
             getWindow().setExitTransition(new Explode());
         }
     }
+
 }
