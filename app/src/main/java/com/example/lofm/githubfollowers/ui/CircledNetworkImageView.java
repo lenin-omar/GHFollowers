@@ -1,19 +1,18 @@
 package com.example.lofm.githubfollowers.ui;
 
 import android.content.Context;
-import android.util.AttributeSet;
-
-import com.android.volley.toolbox.NetworkImageView;
-
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.AttributeSet;
+
+import com.android.volley.toolbox.NetworkImageView;
 
 /**
  * Created by LOFM on 23/02/2017.

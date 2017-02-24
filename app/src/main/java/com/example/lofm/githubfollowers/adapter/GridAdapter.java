@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.example.lofm.githubfollowers.R;
 import com.example.lofm.githubfollowers.model.GHUser;
 import com.example.lofm.githubfollowers.rest.VolleySingleton;
+import com.example.lofm.githubfollowers.ui.CircledNetworkImageView;
 import com.example.lofm.githubfollowers.ui.ImageListener;
 
 import java.util.List;
@@ -20,7 +20,6 @@ import java.util.List;
 /**
  * Created by LOFM on 22/02/2017.
  */
-
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ImageViewHolder> {
 
     private Context context;
@@ -66,12 +65,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ImageViewHolde
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
 
-        protected NetworkImageView initialImage;
+        protected CircledNetworkImageView initialImage;
         protected TextView loginTextView;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
-            initialImage = (NetworkImageView) itemView.findViewById(R.id.initialImage);
+            initialImage = (CircledNetworkImageView) itemView.findViewById(R.id.initialImage);
             loginTextView = (TextView) itemView.findViewById(R.id.loginTextView);
         }
     }
